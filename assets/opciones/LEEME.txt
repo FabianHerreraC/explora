@@ -1,0 +1,26 @@
+Las 12 imágenes de las preguntas 1, 2 y 3 del móvil.
+Nombre del archivo = id de la opción. Se muestran recortadas en cuadrado.
+
+  1. ¿Qué instinto te mueve?
+     cazar.jpg      criatura de muchos ojos con hacha   (tool_object_1)
+     guardar.jpg    casona rosada entre palmeras        (house_1)
+     jugar.jpg      espiral op-art con lengua           (tool_object_2)
+     vagar.jpg      carretera roja hacia las montañas   (landscape_2)
+
+  2. ¿Cómo miras el mundo?
+     defrente.jpg   ojo gigante mirando al frente       (too_object_0)
+     dereojo.jpg    criatura rayada de mirada oblicua   (too_object_1)
+     arriba.jpg     sol-ojo sobre el valle              (landscape_0)
+     adentro.jpg    cabeza con humo saliéndole          (too_object_3)
+
+  3. ¿Qué elemento te habita?
+     fuego.jpg      estallido de púas                   (too_object_2)
+     agua.jpg       río, palmera y sol rojo             (landscape_1)
+     tierra.jpg     hongos y maleza al pie del monte    (landscape_3)
+     aire.jpg       casa-calavera con humo al cielo     (house_2)
+
+Convertidas de los PNG originales con:
+  sips -s format jpeg -s formatOptions 80 -Z 640 origen.png --out destino.jpg
+
+Sin usar quedaron house_3 (casa rosada de noche con cactus) y tool_object_3 (copa de
+tallo azul), por si alguna de las doce se quiere cambiar.

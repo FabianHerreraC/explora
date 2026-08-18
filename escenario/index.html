@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explora · Escenario</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="escena">
+  <img id="fondo" src="../assets/fondo/land2.png" alt="">
+  <div id="capa"></div>
+  <div id="zona" hidden></div>
+
+  <div id="ficha" hidden>
+    <img class="ficha-animal" src="" alt="">
+    <p class="ficha-nombre"></p>
+    <p class="ficha-especie"></p>
+    <p class="ficha-descripcion"></p>
+  </div>
+
+  <div id="estado">preparando criaturas…</div>
+</div>
+
+<p id="ayuda">espacio: invocar · d: zona de suelo · c: limpiar</p>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

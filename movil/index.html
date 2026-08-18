@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0d0d">
+<title>Explora · Invoca tu animal</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main id="formulario">
+  <h1>Explora</h1>
+  <p class="entrada">Todo el que crea tiene un animal adentro. Dinos quién eres y cómo
+    creas, y lo invocamos al paisaje.</p>
+
+  <div id="preguntas"></div>
+
+  <section class="paso" id="paso-nombre">
+    <h2 class="sin-cifra">¿A nombre de quién?</h2>
+    <div class="campos">
+      <input id="nombre" type="text" placeholder="Tu nombre" autocomplete="given-name"
+             enterkeyhint="done" maxlength="24">
+    </div>
+  </section>
+
+  <button id="generar" disabled>Invocar</button>
+  <p id="aviso"></p>
+</main>
+
+<section id="resultado" hidden>
+  <p class="rotulo">Tu animal creador</p>
+  <img id="criatura" src="" alt="">
+  <p id="especie"></p>
+  <p id="portador"></p>
+  <p id="descripcion"></p>
+  <p class="enviada">Ya está caminando por el paisaje.</p>
+  <button id="otra">Invocar otro</button>
+</section>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

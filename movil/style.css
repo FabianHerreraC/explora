@@ -1,0 +1,286 @@
+/* El creador (móvil). Vertical, pulgar arriba, misma paleta que el escenario. */
+
+@font-face {
+  font-family: 'DM Serif Text';
+  src: url('../assets/tipografia/DMSerifText-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'DM Serif Text';
+  src: url('../assets/tipografia/DMSerifText-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: block;
+}
+
+:root {
+  --negro: #0d0d0d;
+  --gris: #ebebeb;
+  --gris-oscuro: #2b2b2b;
+  --azul: #373df5;
+  --limon: #d8f20a;
+  --titular: 'DM Serif Text', Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+
+/* Los controles de formulario no heredan text-transform: el navegador les impone el
+   suyo, así que hay que decírselo aparte. */
+button, input { text-transform: inherit; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--negro);
+  color: var(--gris);
+  font-family: var(--titular);
+  /* Toda la escala tipográfica cuelga de aquí: los tamaños van en rem. */
+  font-size: 13.6px;
+  /* Todo en minúsculas, incluidos los nombres propios que escribe la gente. */
+  text-transform: lowercase;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  padding: 1.4rem 1.2rem calc(2rem + env(safe-area-inset-bottom));
+  max-width: 34rem;
+  margin-inline: auto;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.6rem;
+  line-height: 1;
+  letter-spacing: .01em;
+  text-transform: lowercase;
+  color: var(--gris);
+}
+
+.entrada {
+  margin: .5rem 0 2rem;
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.35;
+  color: #9a9a9a;
+}
+
+/* ---------- pasos ---------- */
+
+.paso { margin-bottom: 2rem; }
+
+.paso h2 {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  margin: 0 0 .7rem;
+  font-size: 1.15rem;
+  font-weight: 400;
+  text-transform: lowercase;
+  letter-spacing: .04em;
+}
+
+.cifra {
+  display: inline-grid;
+  place-items: center;
+  width: 1.5em;
+  height: 1.5em;
+  font-size: .8em;
+  color: var(--negro);
+  background: var(--limon);
+  border-radius: 50%;
+}
+
+.campos { display: grid; gap: .6rem; }
+
+input {
+  width: 100%;
+  padding: .85rem .9rem;
+  font-family: inherit;
+  font-size: 1.1rem;
+  color: var(--gris);
+  background: var(--gris-oscuro);
+  border: 3px solid var(--gris-oscuro);
+  border-radius: 8px;
+}
+
+input::placeholder { color: #7c7c7c; }
+input:focus { outline: none; border-color: var(--azul); }
+
+.opciones { display: grid; gap: .6rem; }
+
+.opciones-imagen { grid-template-columns: repeat(2, 1fr); }
+.opciones-texto { grid-template-columns: 1fr; }
+
+.opcion {
+  padding: .9rem .8rem;
+  font-family: inherit;
+  font-size: 1.05rem;
+  line-height: 1.25;
+  text-align: left;
+  color: var(--gris);
+  background: transparent;
+  border: 2px solid #3a3a3a;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+
+.opcion[aria-pressed="true"] {
+  color: var(--gris);
+  background: var(--azul);
+  border-color: var(--azul);
+}
+
+/* Casillas de imagen: la imagen sola, sin palabra encima. Todas se ven a plena luz; la
+   que se elige se oscurece. */
+.con-imagen {
+  position: relative;
+  aspect-ratio: 1;
+  padding: 0;
+  overflow: hidden;
+  display: grid;
+  border-width: 3px;
+  border-radius: 12px;
+  transition: border-color 160ms ease;
+}
+
+.con-imagen img {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 160ms ease;
+}
+
+.con-imagen[aria-pressed="true"] img { filter: brightness(.42); }
+
+/* La palabra sigue ahí para quien navega con lector de pantalla, pero no se ve. */
+.con-imagen span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.con-imagen[aria-pressed="true"] {
+  border-color: var(--azul);
+  background: none;
+}
+
+/* Si la imagen todavía no existe, esa casilla se queda con la palabra centrada. */
+.con-imagen.sin-imagen {
+  background: repeating-linear-gradient(-45deg, #1a1a1a 0 8px, #141414 8px 16px);
+}
+
+.con-imagen.sin-imagen span {
+  position: static;
+  width: auto;
+  height: auto;
+  clip-path: none;
+  place-self: center;
+  text-align: center;
+  font-size: 1.1rem;
+  text-transform: lowercase;
+  letter-spacing: .04em;
+}
+
+/* ---------- generar ---------- */
+
+#generar, #otra {
+  width: 100%;
+  padding: 1.05rem;
+  font-family: inherit;
+  font-size: 1.35rem;
+  text-transform: lowercase;
+  letter-spacing: .05em;
+  color: var(--negro);
+  background: var(--limon);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#generar:disabled {
+  color: #6d6d6d;
+  background: #262626;
+  cursor: default;
+}
+
+#aviso {
+  margin: .8rem 0 0;
+  min-height: 1.2em;
+  font-style: italic;
+  font-size: .95rem;
+  color: #9a9a9a;
+}
+
+/* ---------- resultado ---------- */
+
+#resultado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: .5rem;
+  padding-top: 1rem;
+  animation: llegar 500ms ease both;
+}
+
+#resultado[hidden] { display: none; }
+
+.rotulo {
+  margin: 0;
+  font-size: .95rem;
+  text-transform: lowercase;
+  letter-spacing: .16em;
+  color: #8c8c8c;
+}
+
+#criatura {
+  width: 100%;
+  max-width: 20rem;
+  height: 44vh;
+  object-fit: contain;
+  object-position: center bottom;
+  margin-bottom: .4rem;
+}
+
+#especie {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1.05;
+  color: var(--azul);
+}
+
+#portador {
+  margin: 0;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: #9a9a9a;
+}
+
+#descripcion {
+  margin: .6rem 0 0;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  color: var(--gris);
+}
+
+.enviada {
+  margin: 1.4rem 0 1rem;
+  padding: .5rem .9rem;
+  font-size: .95rem;
+  color: var(--negro);
+  background: var(--limon);
+  border-radius: 4px;
+}
+
+@keyframes llegar {
+  from { opacity: 0; transform: translateY(1.5rem); }
+  to   { opacity: 1; transform: none; }
+}

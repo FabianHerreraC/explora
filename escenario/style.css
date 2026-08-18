@@ -1,0 +1,262 @@
+/* Escenario (desktop / proyección). Paleta tomada del propio paisaje. */
+
+@font-face {
+  font-family: 'DM Serif Text';
+  src: url('../assets/tipografia/DMSerifText-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'DM Serif Text';
+  src: url('../assets/tipografia/DMSerifText-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: block;
+}
+
+:root {
+  --azul: #373df5;
+  --rosa: #ff2d95;
+  --verde: #a6d916;
+  --limon: #d8f20a;
+  --negro: #0d0d0d;
+  --gris: #ebebeb;
+  /* DM Serif Text solo trae redonda y cursiva: nada de negritas sintéticas. */
+  --titular: 'DM Serif Text', Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--negro);
+  overflow: hidden;
+  font-family: var(--titular);
+  /* Todo en minúsculas, incluidos los nombres que llegan del móvil. */
+  text-transform: lowercase;
+  color: var(--negro);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#escena {
+  position: relative;
+  aspect-ratio: 2688 / 1792;
+  width: min(100vw, calc(100vh * 2688 / 1792));
+  overflow: hidden;
+}
+
+#fondo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  /* El paisaje en blanco y negro: el color queda solo para las criaturas. */
+  filter: grayscale(1);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+#capa { position: absolute; inset: 0; }
+
+/* ---------- personajes ---------- */
+
+.personaje {
+  position: absolute;
+  /* Anclado por las patas: al ampliarse crece hacia arriba sin despegarse del suelo. */
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%);
+  transition: transform 220ms cubic-bezier(.2, .8, .25, 1);
+  will-change: transform, opacity;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Mientras se mantiene pulsado: el animal y su ficha, tres veces más grandes. */
+.personaje.ampliado {
+  transform: translate(-50%, -100%) scale(3);
+  z-index: 9999;
+}
+
+.personaje .entrada,
+.personaje .flotar { height: 100%; }
+
+.personaje .entrada {
+  animation: entrar 900ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.personaje.saliendo .entrada {
+  animation: salir 700ms ease-in both;
+}
+
+/* Movimiento mínimo: el bicho respira y se mece sobre sus patas, nada más. */
+.personaje .flotar {
+  transform-origin: 50% 100%;
+  animation: respirar var(--ritmo, 4.5s) ease-in-out infinite alternate;
+}
+
+.personaje img {
+  display: block;
+  height: 100%;
+  width: auto;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, .35));
+}
+
+/* Ficha de campo: el número de orden encima, el nombre completo debajo. */
+.etiqueta {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translate(-50%, -8%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.15;
+  white-space: nowrap;
+  font-size: clamp(5px, .58vw, 11px);
+  letter-spacing: .06em;
+  text-transform: lowercase;
+  font-weight: normal;
+}
+
+.etiqueta b { font-weight: 400; }
+
+.etiqueta .numero {
+  color: var(--negro);
+  background: var(--limon);
+  padding: .1em .4em 0;
+}
+
+.etiqueta .nombre {
+  color: var(--limon);
+  background: var(--negro);
+  padding: .18em .5em .12em;
+}
+
+@keyframes entrar {
+  from { opacity: 0; transform: translateY(14%) scale(.86); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes salir {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(-8%) scale(.94); }
+}
+
+@keyframes respirar {
+  from { transform: translateY(0) rotate(-0.7deg) scaleY(1); }
+  to   { transform: translateY(-1.4%) rotate(0.7deg) scaleY(1.015); }
+}
+
+/* ---------- ficha del recién llegado ---------- */
+
+#ficha {
+  position: absolute;
+  left: 2.2%;
+  top: 4%;
+  width: 15%;
+  padding: .55em .6em .6em;
+  background: var(--gris);
+  color: var(--negro);
+  border-left: .25em solid var(--negro);
+  border-radius: 4px;
+  animation: aparecerFicha 500ms ease both;
+}
+
+#ficha[hidden] { display: none; }
+
+/* El mismo recorte que camina por el paisaje, apoyado sobre el borde inferior del hueco
+   para que todos queden a ras, sin importar si el bicho es alto o achatado. */
+.ficha-animal {
+  display: block;
+  width: 100%;
+  height: clamp(48px, 5.5vw, 110px);
+  margin-bottom: .5em;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.ficha-nombre {
+  margin: 0;
+  font-size: clamp(10px, 1.3vw, 26px);
+  line-height: .95;
+  letter-spacing: .02em;
+  text-transform: lowercase;
+  color: var(--negro);
+}
+
+/* El nombre del animal, en azul y cursiva: lo único con color en la tarjeta. */
+.ficha-especie {
+  margin: .35em 0 .7em;
+  font-size: clamp(6px, .63vw, 12px);
+  font-style: italic;
+  letter-spacing: .02em;
+  color: var(--azul);
+}
+
+.ficha-descripcion {
+  margin: 0;
+  font-size: clamp(6px, .53vw, 10px);
+  line-height: 1.4;
+  color: var(--negro);
+}
+
+@keyframes aparecerFicha {
+  from { opacity: 0; transform: translateX(-8%); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ---------- utilidades ---------- */
+
+#estado {
+  position: absolute;
+  right: 1.5%;
+  bottom: 2.5%;
+  font-size: clamp(10px, 1vw, 18px);
+  letter-spacing: .18em;
+  text-transform: lowercase;
+  color: var(--limon);
+  background: var(--negro);
+  padding: .3em .7em .25em;
+}
+
+#estado[hidden] { display: none; }
+
+/* Dibujo de la zona pisable, solo para calibrar (tecla d). */
+#zona { position: absolute; inset: 0; pointer-events: none; }
+#zona[hidden] { display: none; }
+#zona .linea {
+  position: absolute;
+  height: 0;
+  border-top: 1px dashed rgba(255, 45, 149, .9);
+}
+#zona .marca {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--rosa);
+}
+
+#ayuda {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 6px;
+  margin: 0;
+  text-align: center;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 11px;
+  letter-spacing: .08em;
+  color: #6b6b6b;
+}

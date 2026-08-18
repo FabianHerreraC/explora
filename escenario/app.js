@@ -175,7 +175,14 @@ function buscarSitio() {
 
 async function mapearSuelo() {
   const img = document.getElementById('fondo');
-  if (!img.complete) await img.decode();
+  // Esperar por el evento load y no por decode(): sobre el PNG grande del fondo, la
+  // promesa de decode() se queda sin resolver y el escenario no arranca nunca.
+  if (!img.complete || !img.naturalWidth) {
+    await new Promise((listo, falla) => {
+      img.addEventListener('load', listo, { once: true });
+      img.addEventListener('error', () => falla(new Error('no se pudo cargar el fondo')), { once: true });
+    });
+  }
 
   const ancho = Math.floor(img.naturalWidth / SUELO.paso);
   const alto = Math.floor(img.naturalHeight / SUELO.paso);

@@ -48,23 +48,29 @@ async function arrancar() {
     })
   );
 
-  estado.textContent = 'demo';
   window.__explora = { sprites, SUELO, pisable, invocar, limpiar }; // para calibrar
 
-  invocar();
-  demo = setInterval(invocar, INTERVALO_DEMO);
-
-  // Cuando llega alguien de verdad, el demo sobra: se apaga y no vuelve.
-  escuchar((mensaje) => {
+  // Primero se escucha: escuchar() entrega lo ya invocado antes de resolver. Así el
+  // demo solo arranca si de verdad no hay nadie, y la pantalla del evento no se estrena
+  // con una criatura inventada.
+  let recibidos = 0;
+  await escuchar((mensaje) => {
     const personaje = PERSONAJES.find((p) => p.id === mensaje.personajeId);
     if (!personaje || !mensaje.nombre) return;
+    recibidos++;
     if (demo) {
       clearInterval(demo);
       demo = null;
-      estado.textContent = 'en vivo';
     }
+    estado.textContent = 'en vivo';
     invocar({ personaje, nombre: mensaje.nombre });
   });
+
+  if (recibidos === 0) {
+    estado.textContent = 'demo';
+    invocar();
+    demo = setInterval(invocar, INTERVALO_DEMO);
+  }
 
   // Pulsar sobre una criatura la agranda mientras se mantenga el dedo o el botón.
   capa.addEventListener('pointerdown', (e) => {

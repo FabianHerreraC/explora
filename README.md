@@ -4,8 +4,8 @@ Juego en tres frentes:
 
 1. **móvil** — la persona responde cuatro preguntas, deja su nombre e invoca al animal
    que representa su espíritu creador *(en pie)*
-2. **enlace** — reparte las criaturas del móvil al escenario *(por dentro del navegador;
-   falta el servidor para que crucen de dispositivo)*
+2. **enlace** — reparte las criaturas del móvil al escenario, por Supabase *(en pie,
+   entre dispositivos distintos)*
 3. **escenario** — pantalla grande donde la criatura aparece en el paisaje *(en pie)*
 
 ## Estructura
@@ -61,11 +61,22 @@ Teclas: **espacio** invoca un personaje, **d** dibuja la zona pisable para calib
   perfecto: gana quien más coincida y el nombre desempata. La cuarta pregunta pesa doble,
   por ser la que habla de lo que la persona quiere crear. La misma persona con las mismas
   respuestas recibe siempre el mismo animal.
-- **El enlace** (`comun/enlace.js`): `emitir` desde el móvil, `escuchar` desde el
-  escenario. Hoy viaja por BroadcastChannel con copia en localStorage. Es el único
-  archivo que cambia cuando exista el servidor.
-- **Modo demo**: cada 5 segundos entra una criatura al azar con un nombre de relleno.
-  Al llegar la primera de verdad, el demo se apaga solo y el rótulo pasa a «en vivo».
+- **El enlace** (`comun/enlace.js`): `emitir` inserta una fila en la tabla `criaturas`
+  de Supabase; `escuchar` entrega primero lo ya invocado y luego se suscribe a los INSERT.
+  Es el único archivo que sabe de Supabase. La clave que lleva dentro es la pública: lo
+  que protege los datos son las políticas de la tabla (`supabase/esquema.sql`), que
+  permiten invocar y mirar pero no modificar ni borrar.
+- **El escenario no arranca vacío**: repuebla el paisaje con lo que ya se invocó, así una
+  recarga a mitad del evento no pierde nada.
+- **Modo demo**: solo si la tabla está vacía. Cada 5 segundos entra una criatura al azar
+  con un nombre de relleno; al llegar la primera de verdad se apaga y el rótulo pasa a
+  «en vivo».
+
+## Antes de un evento
+
+Vaciar la tabla `criaturas` desde el *Table Editor* de Supabase: lo que quede ahí de las
+pruebas va a aparecer en la pantalla. Con la clave pública no se puede borrar (es
+deliberado), así que hay que hacerlo desde el tablero.
 - **Recorte de fondo** (`comun/recorte.js`): los personajes son JPEG con fondo plano,
   sin transparencia. El recorte se hace en el navegador al cargar, inundando desde los
   bordes. Cada región de fondo recuerda el color del borde donde nació, así el amarillo

@@ -66,6 +66,18 @@ body {
   -webkit-user-drag: none;
 }
 
+/* En el cielo negro, centrada arriba: el mismo lugar donde la marca vivía dentro del
+   primer paisaje. Ahí no se para nadie, así que nunca la tapa una criatura. */
+#marca {
+  position: absolute;
+  top: 3.5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14%;
+  opacity: .9;
+  pointer-events: none;
+}
+
 #capa { position: absolute; inset: 0; }
 
 /* ---------- personajes ---------- */

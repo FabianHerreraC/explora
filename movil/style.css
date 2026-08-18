@@ -50,6 +50,14 @@ body {
   margin-inline: auto;
 }
 
+/* La marca arriba del todo: quien invoca sabe de quién es la casa. */
+.marca {
+  display: block;
+  width: 9rem;
+  margin-bottom: 1.6rem;
+  opacity: .8;
+}
+
 h1 {
   margin: 0;
   font-size: 2.6rem;

@@ -23,7 +23,16 @@ fuentes/      originales sin tocar (PNG de partida, TTF, JPEG de los animales)
 Solo `assets/` se publica en el sitio; `fuentes/` está para poder rehacer cualquier
 recorte o conversión más adelante.
 
-## Correr
+## Publicado
+
+- portada: https://fabianherrerac.github.io/explora/
+- móvil: https://fabianherrerac.github.io/explora/movil/
+- escenario: https://fabianherrerac.github.io/explora/escenario/
+
+Repo `FabianHerreraC/explora`, Pages sobre `main` desde la raíz: cada push a `main`
+republica el sitio.
+
+## Correr en local
 
 Necesita servidor (usa módulos ES). Desde `explora/`:
 

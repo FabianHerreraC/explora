@@ -1,53 +1,74 @@
-// El enlace entre el móvil y el escenario.
+// El enlace entre el móvil y el escenario, ahora por Supabase.
 //
-// Hoy viaja por dentro del navegador: BroadcastChannel para las pestañas vivas y una
-// copia en localStorage para las que abran después. Eso alcanza para trabajar en un solo
-// equipo, no para dos dispositivos distintos.
+// El móvil inserta una fila; el escenario está suscrito a los INSERT y la recibe en el
+// momento. Al arrancar, el escenario además lee lo que ya había: si hay que recargar la
+// pantalla a mitad del evento, el paisaje se repuebla en vez de empezar vacío.
 //
-// Cuando exista el servidor, este archivo es lo único que cambia: emitir() manda por
-// WebSocket y escuchar() se suscribe. Ni el móvil ni el escenario se enteran.
+// Es el único archivo que sabe de Supabase. El móvil y el escenario siguen hablando de
+// criaturas con nombre, igual que cuando esto viajaba por dentro del navegador.
 
-const CANAL = 'explora';
-const CLAVE = 'explora:ultimo';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-let canal = null;
-try {
-  canal = new BroadcastChannel(CANAL);
-} catch {
-  canal = null; // navegador sin BroadcastChannel: queda el localStorage
+const PROYECTO = 'https://axkrrdxopkfbvfzpulom.supabase.co';
+// Clave pública: está pensada para vivir dentro de una web abierta. Lo que protege los
+// datos son las políticas de la tabla (ver supabase/esquema.sql), no el secreto de esto.
+const CLAVE = 'sb_publishable_AFt5EB-Gs9LCV3C4S3yyAg__LVDfjbl';
+const TABLA = 'criaturas';
+
+const supabase = createClient(PROYECTO, CLAVE, {
+  auth: { persistSession: false },
+});
+
+export async function emitir(datos) {
+  const { data, error } = await supabase
+    .from(TABLA)
+    .insert({
+      nombre: datos.nombre,
+      personaje_id: datos.personajeId,
+      instinto: datos.instinto ?? null,
+      mirada: datos.mirada ?? null,
+      elemento: datos.elemento ?? null,
+      creacion: datos.creacion ?? null,
+    })
+    .select()
+    .single();
+
+  if (error) throw new Error(`no se pudo invocar: ${error.message}`);
+  return aMensaje(data);
 }
 
-export function emitir(datos) {
-  const mensaje = { ...datos, id: identificador(), enviadoEn: Date.now() };
-  canal?.postMessage(mensaje);
-  try {
-    localStorage.setItem(CLAVE, JSON.stringify(mensaje));
-  } catch {
-    // navegación privada sin almacenamiento: el canal ya hizo su parte
-  }
-  return mensaje;
-}
-
-export function escuchar(alLlegar) {
-  // Los dos caminos pueden traer el mismo mensaje: se entrega una sola vez.
+export async function escuchar(alLlegar) {
   const vistos = new Set();
-  const recibir = (mensaje) => {
-    if (!mensaje?.id || vistos.has(mensaje.id)) return;
-    vistos.add(mensaje.id);
-    alLlegar(mensaje);
+  const entregar = (fila) => {
+    if (!fila || vistos.has(fila.id)) return;
+    vistos.add(fila.id);
+    alLlegar(aMensaje(fila));
   };
 
-  canal?.addEventListener('message', (e) => recibir(e.data));
-  window.addEventListener('storage', (e) => {
-    if (e.key !== CLAVE || !e.newValue) return;
-    try {
-      recibir(JSON.parse(e.newValue));
-    } catch {
-      // mensaje ilegible: se ignora
-    }
-  });
+  // Primero lo que ya estaba, en orden de llegada.
+  const { data, error } = await supabase.from(TABLA).select('*').order('id');
+  if (error) console.warn('no se pudo leer lo ya invocado:', error.message);
+  for (const fila of data ?? []) entregar(fila);
+
+  // Y de aquí en adelante, en vivo.
+  supabase
+    .channel('criaturas-en-vivo')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: TABLA }, (cambio) =>
+      entregar(cambio.new)
+    )
+    .subscribe();
 }
 
-function identificador() {
-  return crypto.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+// De fila de base de datos a lo que el escenario espera.
+function aMensaje(fila) {
+  return {
+    id: fila.id,
+    nombre: fila.nombre,
+    personajeId: fila.personaje_id,
+    instinto: fila.instinto,
+    mirada: fila.mirada,
+    elemento: fila.elemento,
+    creacion: fila.creacion,
+    enviadoEn: fila.creado_en,
+  };
 }

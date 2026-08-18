@@ -100,7 +100,16 @@ async function generar() {
   // el animal no aparezca con su fondo de estudio a cuestas.
   const sprite = await recortar(RUTA_PERSONAJES + personaje.archivo);
 
-  emitir({ tipo: 'animal', nombre, personajeId: personaje.id, ...eleccion });
+  // Si el envío falla, no se muestra nada: el animal no llegó al paisaje y la persona
+  // tiene que poder intentarlo otra vez.
+  try {
+    await emitir({ nombre, personajeId: personaje.id, ...eleccion });
+  } catch (error) {
+    avisoEl.textContent = 'no llegó al paisaje. revisa la conexión e inténtalo otra vez.';
+    generarEl.disabled = false;
+    console.error(error);
+    return;
+  }
 
   document.getElementById('criatura').src = sprite.url;
   document.getElementById('criatura').alt = personaje.especie;

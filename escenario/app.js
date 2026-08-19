@@ -3,7 +3,7 @@
 
 import { PERSONAJES, NOMBRES_DEMO } from '../datos/personajes.js';
 import { recortar } from '../comun/recorte.js';
-import { escuchar } from '../comun/enlace.js';
+import { escuchar, reiniciarSesion } from '../comun/enlace.js';
 
 const RUTA_PERSONAJES = '../assets/personajes/';
 
@@ -29,6 +29,7 @@ const capa = document.getElementById('capa');
 const ficha = document.getElementById('ficha');
 const estado = document.getElementById('estado');
 const zona = document.getElementById('zona');
+const botonReiniciar = document.getElementById('reiniciar');
 
 const enEscena = [];
 const sprites = new Map();
@@ -58,19 +59,21 @@ async function arrancar() {
     const personaje = PERSONAJES.find((p) => p.id === mensaje.personajeId);
     if (!personaje || !mensaje.nombre) return;
     recibidos++;
+    // La primera de verdad se lleva por delante el demo: el paisaje se vacía de relleno
+    // y la numeración empieza en 001 con ella, no detrás de criaturas inventadas.
     if (demo) {
       clearInterval(demo);
       demo = null;
+      limpiar();
+      generados = 0;
     }
     estado.textContent = 'en vivo';
     invocar({ personaje, nombre: mensaje.nombre });
   });
 
-  if (recibidos === 0) {
-    estado.textContent = 'demo';
-    invocar();
-    demo = setInterval(invocar, INTERVALO_DEMO);
-  }
+  if (recibidos === 0) arrancarDemo();
+
+  prepararReinicio();
 
   // Pulsar sobre una criatura la agranda mientras se mantenga el dedo o el botón.
   capa.addEventListener('pointerdown', (e) => {
@@ -87,6 +90,51 @@ async function arrancar() {
     if (e.code === 'Space') { e.preventDefault(); invocar(); }
     if (e.key === 'd') { dibujarZona(); zona.hidden = !zona.hidden; }
     if (e.key === 'c') limpiar();
+  });
+}
+
+function arrancarDemo() {
+  if (demo) return;
+  estado.textContent = 'demo';
+  invocar();
+  demo = setInterval(invocar, INTERVALO_DEMO);
+}
+
+// Reiniciar de verdad: el paisaje queda vacío, la numeración vuelve a 001 y lo invocado
+// antes no regresa ni recargando. No se borra nada de la base: sigue archivado.
+// Pide confirmación porque un clic suelto en pleno evento se llevaría la sesión.
+function prepararReinicio() {
+  let armado = null;
+  botonReiniciar.hidden = false;
+
+  const desarmar = () => {
+    clearTimeout(armado);
+    armado = null;
+    botonReiniciar.textContent = 'reiniciar';
+    botonReiniciar.classList.remove('armado');
+  };
+
+  botonReiniciar.addEventListener('click', async () => {
+    if (!armado) {
+      botonReiniciar.textContent = '¿seguro?';
+      botonReiniciar.classList.add('armado');
+      armado = setTimeout(desarmar, 4000);
+      return;
+    }
+
+    desarmar();
+    botonReiniciar.disabled = true;
+    try {
+      await reiniciarSesion();
+      limpiar();
+      generados = 0;
+      if (demo) { clearInterval(demo); demo = null; }
+      arrancarDemo();
+    } catch (error) {
+      estado.textContent = 'no se pudo reiniciar';
+      console.error(error);
+    }
+    botonReiniciar.disabled = false;
   });
 }
 

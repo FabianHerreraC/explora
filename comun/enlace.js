@@ -14,6 +14,9 @@ const PROYECTO = 'https://axkrrdxopkfbvfzpulom.supabase.co';
 // datos son las políticas de la tabla (ver supabase/esquema.sql), no el secreto de esto.
 const CLAVE = 'sb_publishable_AFt5EB-Gs9LCV3C4S3yyAg__LVDfjbl';
 const TABLA = 'criaturas';
+// Hasta dónde llega lo ya invocado que este escenario da por visto. Reiniciar no borra
+// nada: mueve esta marca al final, y lo anterior deja de repoblarse.
+const MARCA = 'explora:desde';
 
 const supabase = createClient(PROYECTO, CLAVE, {
   auth: { persistSession: false },
@@ -38,6 +41,7 @@ export async function emitir(datos) {
 }
 
 export async function escuchar(alLlegar) {
+  const desde = Number(localStorage.getItem(MARCA) ?? 0);
   const vistos = new Set();
   const entregar = (fila) => {
     if (!fila || vistos.has(fila.id)) return;
@@ -45,8 +49,8 @@ export async function escuchar(alLlegar) {
     alLlegar(aMensaje(fila));
   };
 
-  // Primero lo que ya estaba, en orden de llegada.
-  const { data, error } = await supabase.from(TABLA).select('*').order('id');
+  // Primero lo que ya estaba en esta sesión, en orden de llegada.
+  const { data, error } = await supabase.from(TABLA).select('*').gt('id', desde).order('id');
   if (error) console.warn('no se pudo leer lo ya invocado:', error.message);
   for (const fila of data ?? []) entregar(fila);
 
@@ -57,6 +61,21 @@ export async function escuchar(alLlegar) {
       entregar(cambio.new)
     )
     .subscribe();
+}
+
+// Empieza una sesión nueva: lo invocado hasta ahora queda archivado en la base pero
+// deja de aparecer en el paisaje, también si se recarga la página.
+export async function reiniciarSesion() {
+  const { data, error } = await supabase
+    .from(TABLA)
+    .select('id')
+    .order('id', { ascending: false })
+    .limit(1);
+
+  if (error) throw new Error(`no se pudo reiniciar: ${error.message}`);
+  const ultimo = data?.[0]?.id ?? 0;
+  localStorage.setItem(MARCA, String(ultimo));
+  return ultimo;
 }
 
 // De fila de base de datos a lo que el escenario espera.

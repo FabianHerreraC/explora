@@ -266,6 +266,35 @@ body {
 
 #estado[hidden] { display: none; }
 
+/* Discreto y al lado del rótulo: la pantalla la maneja el equipo, no el público. */
+#reiniciar {
+  position: absolute;
+  left: 1.5%;
+  bottom: 6.5%;
+  font-family: inherit;
+  font-size: clamp(8px, .8vw, 14px);
+  letter-spacing: .12em;
+  text-transform: lowercase;
+  color: #7c7c7c;
+  background: none;
+  border: 1px solid #3a3a3a;
+  border-radius: 3px;
+  padding: .3em .7em .25em;
+  cursor: pointer;
+  opacity: .55;
+  transition: opacity 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+#reiniciar:hover { opacity: 1; }
+#reiniciar[hidden] { display: none; }
+
+/* Armado: el segundo clic es el que reinicia. */
+#reiniciar.armado {
+  opacity: 1;
+  color: var(--rojo);
+  border-color: var(--rojo);
+}
+
 /* Dibujo de la zona pisable, solo para calibrar (tecla d). */
 #zona { position: absolute; inset: 0; pointer-events: none; }
 #zona[hidden] { display: none; }

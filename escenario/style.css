@@ -66,18 +66,6 @@ body {
   -webkit-user-drag: none;
 }
 
-/* En el cielo negro, centrada arriba: el mismo lugar donde la marca vivía dentro del
-   primer paisaje. Ahí no se para nadie, así que nunca la tapa una criatura. */
-#marca {
-  position: absolute;
-  top: 3.5%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 14%;
-  opacity: .9;
-  pointer-events: none;
-}
-
 #capa { position: absolute; inset: 0; }
 
 /* ---------- personajes ---------- */
@@ -227,11 +215,29 @@ body {
   to   { opacity: 1; transform: translateX(0); }
 }
 
+/* ---------- marca ---------- */
+
+/* Abajo a la derecha, sobre su propio recuadro claro: la firma de la casa, con el mismo
+   gris y las mismas esquinas que la ficha. */
+#marca {
+  position: absolute;
+  right: 2.2%;
+  bottom: 4%;
+  width: 26%;
+  padding: 1.6% 2%;
+  background: var(--gris);
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 10000;
+}
+
+#marca img { display: block; width: 100%; }
+
 /* ---------- utilidades ---------- */
 
 #estado {
   position: absolute;
-  right: 1.5%;
+  left: 1.5%;
   bottom: 2.5%;
   font-size: clamp(10px, 1vw, 18px);
   letter-spacing: .18em;

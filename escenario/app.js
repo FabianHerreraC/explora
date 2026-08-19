@@ -128,8 +128,11 @@ function prepararReinicio() {
       await reiniciarSesion();
       limpiar();
       generados = 0;
+      // Después de reiniciar el paisaje se queda vacío y esperando, sin demo: si el
+      // público ya está en la sala, unas criaturas de relleno con nombres inventados
+      // hacen creer que la pieza está ocupada. El demo vuelve recargando la página.
       if (demo) { clearInterval(demo); demo = null; }
-      arrancarDemo();
+      estado.textContent = 'en espera';
     } catch (error) {
       estado.textContent = 'no se pudo reiniciar';
       console.error(error);

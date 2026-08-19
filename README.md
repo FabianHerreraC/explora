@@ -74,9 +74,20 @@ Teclas: **espacio** invoca un personaje, **d** dibuja la zona pisable para calib
 
 ## Antes de un evento
 
-Vaciar la tabla `criaturas` desde el *Table Editor* de Supabase: lo que quede ahí de las
-pruebas va a aparecer en la pantalla. Con la clave pública no se puede borrar (es
-deliberado), así que hay que hacerlo desde el tablero.
+Pulsar **reiniciar** en el escenario (abajo a la izquierda, pide confirmación). Abre
+sesión nueva: el paisaje queda vacío, la numeración vuelve a 001 y lo invocado antes no
+regresa ni recargando la página.
+
+No borra nada: las filas siguen en la base como archivo de lo que pasó. Lo que hace es
+guardar en ese navegador hasta dónde ya leyó. Dos consecuencias:
+
+- Si la pantalla se abre en **otro equipo o navegador**, la marca no viaja con ella y el
+  paisaje se repuebla con todo lo anterior. Hay que reiniciar de nuevo ahí.
+- Para borrar de verdad, hay que ir al *Table Editor* de Supabase. Con la clave pública
+  no se puede (es deliberado: si el escenario pudiera borrar, cualquiera con la URL
+  también).
+
+La tecla `c` es otra cosa: limpia la pantalla, pero al recargar vuelven.
 - **Recorte de fondo** (`comun/recorte.js`): los personajes son JPEG con fondo plano,
   sin transparencia. El recorte se hace en el navegador al cargar, inundando desde los
   bordes. Cada región de fondo recuerda el color del borde donde nació, así el amarillo

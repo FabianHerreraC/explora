@@ -21,6 +21,7 @@
   --rosa: #ff2d95;
   --verde: #a6d916;
   --limon: #d8f20a;
+  --rojo: #ff2e1f;
   --negro: #0d0d0d;
   --gris: #ebebeb;
   /* DM Serif Text solo trae redonda y cursiva: nada de negritas sintéticas. */
@@ -217,21 +218,36 @@ body {
 
 /* ---------- marca ---------- */
 
-/* Abajo a la derecha, sobre su propio recuadro claro: la firma de la casa, con el mismo
-   gris y las mismas esquinas que la ficha. */
+/* Abajo a la derecha, sobre recuadro azul. Los dos textos del logo se intercambian el
+   rojo y el verde cada 1,2 s: la animación vive dentro del propio SVG, porque cargado
+   como <img> el CSS de esta hoja no lo alcanza. */
 #marca {
   position: absolute;
   right: 2.2%;
   bottom: 4%;
   width: 26%;
   padding: 1.6% 2%;
-  background: var(--gris);
+  background: var(--azul);
   border-radius: 4px;
   pointer-events: none;
   z-index: 10000;
 }
 
-#marca img { display: block; width: 100%; }
+#marca svg { display: block; width: 100%; }
+
+/* Los dos textos se turnan el rojo y el verde: misma animación, medio ciclo de desfase,
+   así siempre están intercambiados. Sin transición: el cambio es seco. */
+#marca #estudia,
+#marca #nombre {
+  animation: alternar 2.4s steps(1, end) infinite;
+}
+
+#marca #nombre { animation-delay: -1.2s; }
+
+@keyframes alternar {
+  0%, 100% { fill: var(--rojo); }
+  50%      { fill: var(--verde); }
+}
 
 /* ---------- utilidades ---------- */
 

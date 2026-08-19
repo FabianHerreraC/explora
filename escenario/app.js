@@ -4,6 +4,7 @@
 import { PERSONAJES, NOMBRES_DEMO } from '../datos/personajes.js';
 import { recortar } from '../comun/recorte.js';
 import { escuchar, reiniciarSesion } from '../comun/enlace.js';
+import { sonido, desbloquearSonido } from '../comun/campana.js';
 
 const RUTA_PERSONAJES = '../assets/personajes/';
 
@@ -50,6 +51,11 @@ async function arrancar() {
   );
 
   window.__explora = { sprites, SUELO, pisable, invocar, limpiar }; // para calibrar
+  desbloquearSonido();
+
+  // La campana solo anuncia a quien llega en vivo: ni el repoblado inicial —serían doce
+  // campanadas de golpe— ni las criaturas de relleno del demo.
+  let enVivo = false;
 
   // Primero se escucha: escuchar() entrega lo ya invocado antes de resolver. Así el
   // demo solo arranca si de verdad no hay nadie, y la pantalla del evento no se estrena
@@ -68,8 +74,11 @@ async function arrancar() {
       generados = 0;
     }
     estado.textContent = 'en vivo';
+    if (enVivo) sonido();
     invocar({ personaje, nombre: mensaje.nombre });
   });
+
+  enVivo = true;
 
   if (recibidos === 0) arrancarDemo();
 

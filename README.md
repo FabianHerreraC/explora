@@ -66,6 +66,10 @@ Teclas: **espacio** invoca un personaje, **d** dibuja la zona pisable para calib
   Es el único archivo que sabe de Supabase. La clave que lleva dentro es la pública: lo
   que protege los datos son las políticas de la tabla (`supabase/esquema.sql`), que
   permiten invocar y mirar pero no modificar ni borrar.
+- **La campana** (`comun/campana.js`): suena una vez por cada criatura que llega en vivo.
+  Está sintetizada, sin archivo: cinco parciales que no son múltiplos enteros de la
+  fundamental —eso es lo que hace que suene a metal y no a nota— apagándose a distinta
+  velocidad. No suena en el repoblado inicial ni con las criaturas del demo.
 - **El escenario no arranca vacío**: repuebla el paisaje con lo que ya se invocó, así una
   recarga a mitad del evento no pierde nada.
 - **Modo demo**: solo si la tabla está vacía. Cada 5 segundos entra una criatura al azar
@@ -73,6 +77,9 @@ Teclas: **espacio** invoca un personaje, **d** dibuja la zona pisable para calib
   «en vivo».
 
 ## Antes de un evento
+
+**Hacer clic una vez sobre la pantalla.** Los navegadores no dejan sonar nada hasta que
+alguien toca la página: sin ese clic, la campana no suena en toda la sesión.
 
 Pulsar **reiniciar** en el escenario (abajo a la izquierda, pide confirmación). Abre
 sesión nueva: el paisaje queda vacío, la numeración vuelve a 001 y lo invocado antes no

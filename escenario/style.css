@@ -235,8 +235,9 @@ body {
 
 #marca svg { display: block; width: 100%; }
 
-/* Los dos textos se turnan el rojo y el verde: misma animación, medio ciclo de desfase,
-   así siempre están intercambiados. Sin transición: el cambio es seco. */
+/* Los dos textos se turnan el rojo y el limón —el mismo amarillo verdoso de los nombres
+   que llevan las criaturas—: misma animación, medio ciclo de desfase, así siempre están
+   intercambiados. Sin transición: el cambio es seco. */
 #marca #estudia,
 #marca #nombre {
   animation: alternar 2.4s steps(1, end) infinite;
@@ -246,7 +247,7 @@ body {
 
 @keyframes alternar {
   0%, 100% { fill: var(--rojo); }
-  50%      { fill: var(--verde); }
+  50%      { fill: var(--limon); }
 }
 
 /* ---------- utilidades ---------- */

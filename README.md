@@ -107,10 +107,13 @@ La tecla `c` es otra cosa: limpia la pantalla, pero al recargar vuelven.
 
 ## El catálogo
 
-De las 16 imágenes, **11 son figuras de cuerpo entero** y están en `PERSONAJES`: son las
-que pueden pararse en el claro. Las otras **5 son bustos** que el marco corta a la altura
-del pecho; están en `RETRATOS`, fuera del escenario, esperando otro uso (la ficha, el
-selector del móvil).
+**35 animales** en `PERSONAJES`, todos de cuerpo entero: son los que pueden pararse en el
+paisaje. Del primer lote quedaron fuera **5 bustos** que el marco corta a la altura del
+pecho; están en `RETRATOS`, esperando otro uso.
+
+Para que una imagen sirva: cuerpo entero con las patas dentro del cuadro, fondo plano (uno
+o dos colores, sin degradado) y el animal sin tocar los bordes. Un fondo de dos tonos
+—cielo y suelo— funciona: el recorte trata cada región por separado.
 
 ## Pendientes conocidos
 

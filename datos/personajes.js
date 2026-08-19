@@ -177,6 +177,271 @@ export const PERSONAJES = [
     descripcion:
       'No se levanta nunca. Dicen que sigue esperando algo que ya ocurrió hace mucho.',
   },
+
+  {
+    id: 'leopardo-lengua',
+    archivo: 'leopardo-lengua.jpeg',
+    especie: 'Leopardo de Lengua Larga',
+    instinto: 'cazar',
+    mirada: 'defrente',
+    elemento: 'fuego',
+    creacion: 'viral',
+    descripcion:
+      'Se le derrite la cara cuando alguien lo nombra. La lengua le llega al suelo y por ahí se entera de todo.',
+  },
+  {
+    id: 'gato-flaco',
+    archivo: 'gato-flaco.jpeg',
+    especie: 'Gato de Alambre',
+    instinto: 'vagar',
+    mirada: 'dereojo',
+    elemento: 'aire',
+    creacion: 'videojuego',
+    descripcion:
+      'No pesa nada y aun así hunde el pasto donde pisa. Los bigotes le siguen creciendo hacia el pasado.',
+  },
+  {
+    id: 'gatito-espiral',
+    archivo: 'gatito-espiral.jpeg',
+    especie: 'Gato Recién Hecho',
+    instinto: 'jugar',
+    mirada: 'defrente',
+    elemento: 'fuego',
+    creacion: 'viral',
+    descripcion:
+      'Todavía no sabe para qué sirve la lengua y la lleva afuera por si acaso. Se ríe de cosas que nadie más ve.',
+  },
+  {
+    id: 'lince-naranja',
+    archivo: 'lince-naranja.jpeg',
+    especie: 'Lince de Ojos Girados',
+    instinto: 'cazar',
+    mirada: 'dereojo',
+    elemento: 'fuego',
+    creacion: 'marca',
+    descripcion:
+      'Vigila dos horizontes al tiempo. Sus manchas cambian de sitio cuando nadie lo mira.',
+  },
+  {
+    id: 'gato-dientes',
+    archivo: 'gato-dientes.jpeg',
+    especie: 'Gato de Mil Dientes',
+    instinto: 'cazar',
+    mirada: 'defrente',
+    elemento: 'fuego',
+    creacion: 'videojuego',
+    descripcion:
+      'Se despierta con hambre de algo que no existe. El pelo se le eriza antes de que pase lo que va a pasar.',
+  },
+  {
+    id: 'gato-peludo',
+    archivo: 'gato-peludo.jpeg',
+    especie: 'Gato de Ovillo',
+    instinto: 'jugar',
+    mirada: 'adentro',
+    elemento: 'aire',
+    creacion: 'marca',
+    descripcion:
+      'Se enreda en su propio pelo cada noche y amanece deshecho. Ronronea en una frecuencia que atrasa los relojes.',
+  },
+  {
+    id: 'can-manchado',
+    archivo: 'can-manchado.jpeg',
+    especie: 'Can de Hocico Negro',
+    instinto: 'cazar',
+    mirada: 'dereojo',
+    elemento: 'tierra',
+    creacion: 'app',
+    descripcion:
+      'Huele lo que uno pensó ayer. Ladra hacia adentro para no delatar dónde está.',
+  },
+  {
+    id: 'perro-flaco',
+    archivo: 'perro-flaco.jpeg',
+    especie: 'Perro de Patas Largas',
+    instinto: 'vagar',
+    mirada: 'arriba',
+    elemento: 'aire',
+    creacion: 'app',
+    descripcion:
+      'Camina sobre el mundo sin llegar a tocarlo. Siempre llega antes que su sombra.',
+  },
+  {
+    id: 'bulldog-verde',
+    archivo: 'bulldog-verde.jpeg',
+    especie: 'Guardián de Mandíbula',
+    instinto: 'guardar',
+    mirada: 'defrente',
+    elemento: 'tierra',
+    creacion: 'marca',
+    descripcion:
+      'No deja pasar a nadie que venga con prisa. Lo que muerde no lo suelta ni dormido.',
+  },
+  {
+    id: 'liebre-rosa',
+    archivo: 'liebre-rosa.jpeg',
+    especie: 'Liebre de Orejas Altas',
+    instinto: 'vagar',
+    mirada: 'dereojo',
+    elemento: 'aire',
+    creacion: 'viral',
+    descripcion:
+      'Oye crecer la maleza a tres valles de distancia. Nunca está donde uno la vio.',
+  },
+  {
+    id: 'ave-verde',
+    archivo: 'ave-verde.jpeg',
+    especie: 'Ave de Pico Rosa',
+    instinto: 'guardar',
+    mirada: 'arriba',
+    elemento: 'aire',
+    creacion: 'app',
+    descripcion:
+      'Se para en una sola pata para no gastar el suelo. Canta únicamente cuando nadie puede repetirlo.',
+  },
+  {
+    id: 'buitre-verde',
+    archivo: 'buitre-verde.jpeg',
+    especie: 'Buitre de Espalda Curva',
+    instinto: 'guardar',
+    mirada: 'arriba',
+    elemento: 'tierra',
+    creacion: 'app',
+    descripcion:
+      'Espera con una paciencia que da miedo. Sabe el final de historias que apenas empiezan.',
+  },
+  {
+    id: 'liebre-azul',
+    archivo: 'liebre-azul.jpeg',
+    especie: 'Liebre de Dientes Blancos',
+    instinto: 'jugar',
+    mirada: 'defrente',
+    elemento: 'agua',
+    creacion: 'videojuego',
+    descripcion:
+      'Corre para que no la alcancen sus propias ideas. Se ríe mientras huye.',
+  },
+  {
+    id: 'liebre-salto',
+    archivo: 'liebre-salto.jpeg',
+    especie: 'Liebre de Salto Largo',
+    instinto: 'vagar',
+    mirada: 'adentro',
+    elemento: 'agua',
+    creacion: 'videojuego',
+    descripcion:
+      'Salta antes de decidir hacia dónde. En el aire cambia de opinión y aun así cae de pie.',
+  },
+  {
+    id: 'loro-rosado',
+    archivo: 'loro-rosado.jpeg',
+    especie: 'Loro de Ojos Vueltos',
+    instinto: 'jugar',
+    mirada: 'dereojo',
+    elemento: 'aire',
+    creacion: 'viral',
+    descripcion:
+      'Repite lo que todavía no se ha dicho. Le sale una pluma nueva cada vez que acierta.',
+  },
+  {
+    id: 'simio-verde',
+    archivo: 'simio-verde.jpeg',
+    especie: 'Simio de Un Solo Ojo',
+    instinto: 'guardar',
+    mirada: 'adentro',
+    elemento: 'tierra',
+    creacion: 'app',
+    descripcion:
+      'Mira una cosa a la vez, pero la mira entera. Con las manos rosadas ordena lo que los demás desordenan.',
+  },
+  {
+    id: 'mono-verde',
+    archivo: 'mono-verde.jpeg',
+    especie: 'Mono de Bostezo Azul',
+    instinto: 'jugar',
+    mirada: 'adentro',
+    elemento: 'agua',
+    creacion: 'videojuego',
+    descripcion:
+      'Se le sale el sueño por la boca. Anda en cuatro patas para no perderse nada del suelo.',
+  },
+  {
+    id: 'orangutan-rosa',
+    archivo: 'orangutan-rosa.jpeg',
+    especie: 'Orangután de Tres Ojos',
+    instinto: 'guardar',
+    mirada: 'adentro',
+    elemento: 'tierra',
+    creacion: 'marca',
+    descripcion:
+      'Con el tercero mira hacia atrás en el tiempo. Camina despacio porque carga todo lo que ha visto.',
+  },
+  {
+    id: 'mono-rosado',
+    archivo: 'mono-rosado.jpeg',
+    especie: 'Mono de Risa Roja',
+    instinto: 'cazar',
+    mirada: 'defrente',
+    elemento: 'fuego',
+    creacion: 'viral',
+    descripcion:
+      'Enseña los dientes cuando algo le gusta. La cola le dibuja en el aire lo que no sabe decir.',
+  },
+  {
+    id: 'conejo-verde',
+    archivo: 'conejo-verde.jpeg',
+    especie: 'Conejo de Espiral',
+    instinto: 'jugar',
+    mirada: 'adentro',
+    elemento: 'tierra',
+    creacion: 'app',
+    descripcion:
+      'Se queda quieto hasta que el paisaje se acostumbra a él. Después se mueve y todo empieza de nuevo.',
+  },
+  {
+    id: 'liebre-carrera',
+    archivo: 'liebre-carrera.jpeg',
+    especie: 'Liebre de Dientes Largos',
+    instinto: 'cazar',
+    mirada: 'dereojo',
+    elemento: 'fuego',
+    creacion: 'videojuego',
+    descripcion:
+      'Corre con la boca abierta para llegar con algo que contar. Nadie la ha visto detenerse.',
+  },
+  {
+    id: 'elefante-rosa',
+    archivo: 'elefante-rosa.jpeg',
+    especie: 'Elefante de Orejas Anchas',
+    instinto: 'guardar',
+    mirada: 'arriba',
+    elemento: 'agua',
+    creacion: 'marca',
+    descripcion:
+      'Recuerda por todos los demás. Las orejas se le mueven con noticias que aún no llegan.',
+  },
+  {
+    id: 'elefante-trompa',
+    archivo: 'elefante-trompa.jpeg',
+    especie: 'Elefante de Trompa Larga',
+    instinto: 'vagar',
+    mirada: 'arriba',
+    elemento: 'agua',
+    creacion: 'marca',
+    descripcion:
+      'Toca las cosas antes de verlas. Va despacio porque el suelo le va contando cosas.',
+  },
+  {
+    id: 'mamut-rosa',
+    archivo: 'mamut-rosa.jpeg',
+    especie: 'Mamut de Pelo Rosa',
+    instinto: 'vagar',
+    mirada: 'arriba',
+    elemento: 'agua',
+    creacion: 'viral',
+    descripcion:
+      'Viene de un frío que ya no existe. Sigue caminando por pura costumbre.',
+  },
 ];
 
 // Bustos: el marco los corta a la altura del pecho, así que no pueden pararse en el

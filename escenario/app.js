@@ -3,7 +3,7 @@
 
 import { PERSONAJES, NOMBRES_DEMO } from '../datos/personajes.js';
 import { recortar } from '../comun/recorte.js';
-import { escuchar, reiniciarSesion } from '../comun/enlace.js';
+import { escuchar, reiniciarSesion } from '../comun/enlace.js?v=invocacion-segura-1';
 import { sonido, desbloquearSonido } from '../comun/campana.js';
 
 const RUTA_PERSONAJES = '../assets/personajes/';

@@ -1,0 +1,4 @@
+project_id = "explora"
+
+[functions.invocar]
+verify_jwt = false # La función verifica apikey; los visitantes no tienen sesión JWT.

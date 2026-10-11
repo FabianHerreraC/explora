@@ -43,8 +43,9 @@ python3 -m http.server 5311
 - escenario: `http://localhost:5311/escenario/`
 - móvil: `http://localhost:5311/movil/`
 
-Las dos páginas se hablan **dentro del mismo navegador**: dos pestañas del mismo equipo,
-sí; dos dispositivos, todavía no. Eso llega con el servidor.
+Las dos páginas usan Supabase para comunicarse entre dispositivos. Para probar la
+invocación desde localhost, usa un proyecto de desarrollo y configura su origen en la
+función; producción permite únicamente el origen de GitHub Pages.
 
 Teclas: **espacio** invoca un personaje, **d** dibuja la zona pisable para calibrar,
 **c** limpia el claro.
@@ -61,11 +62,13 @@ Teclas: **espacio** invoca un personaje, **d** dibuja la zona pisable para calib
   perfecto: gana quien más coincida y el nombre desempata. La cuarta pregunta pesa doble,
   por ser la que habla de lo que la persona quiere crear. La misma persona con las mismas
   respuestas recibe siempre el mismo animal.
-- **El enlace** (`comun/enlace.js`): `emitir` inserta una fila en la tabla `criaturas`
-  de Supabase; `escuchar` entrega primero lo ya invocado y luego se suscribe a los INSERT.
-  Es el único archivo que sabe de Supabase. La clave que lleva dentro es la pública: lo
-  que protege los datos son las políticas de la tabla (`supabase/esquema.sql`), que
-  permiten invocar y mirar pero no modificar ni borrar.
+- **El enlace** (`comun/enlace.js`): `emitir` llama a la Edge Function `invocar`, que
+  valida el nombre, las cuatro respuestas y el personaje calculado en el servidor.
+  La función usa una credencial de servidor para llamar a `invocar_criatura_segura`.
+  La base reserva la cuota e inserta la criatura en una misma transacción. El cliente
+  público no tiene permiso para insertar ni ejecutar esa RPC directamente.
+  `escuchar` conserva la lectura y los INSERT de Realtime para repoblar el escenario.
+  La clave pública del navegador identifica la aplicación; no es un secreto.
 - **La campana** (`comun/campana.js`): suena una vez por cada criatura que llega en vivo.
   Está sintetizada, sin archivo: cinco parciales que no son múltiplos enteros de la
   fundamental —eso es lo que hace que suene a metal y no a nota— apagándose a distinta
@@ -132,3 +135,9 @@ o dos colores, sin degradado) y el animal sin tocar los bordes. Un fondo de dos 
 - El recorte se rehace en cada carga: con 11 imágenes tarda unos segundos. Conviene
   hornear los PNG una sola vez y guardarlos.
 - `assets/fondo/land2.png` pesa 7,7 MB. Conviene reducirlo antes de publicar.
+
+## Seguridad y publicación
+
+Ver [supabase/SEGURIDAD.md](supabase/SEGURIDAD.md) para aplicar la migración y desplegar
+la función antes del cliente. `npm ci && npm test` ejecuta las pruebas HTTP y de
+permisos/cuotas sobre PostgreSQL local en memoria; no escribe datos de un evento.

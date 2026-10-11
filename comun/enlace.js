@@ -1,7 +1,7 @@
 // El enlace entre el móvil y el escenario, ahora por Supabase.
 //
-// El móvil inserta una fila; el escenario está suscrito a los INSERT y la recibe en el
-// momento. Al arrancar, el escenario además lee lo que ya había: si hay que recargar la
+// El móvil invoca mediante una función con validación y cuotas. El escenario está
+// suscrito a los INSERT y recibe cada criatura en el momento. Al arrancar, el escenario además lee lo que ya había: si hay que recargar la
 // pantalla a mitad del evento, el paisaje se repuebla en vez de empezar vacío.
 //
 // Es el único archivo que sabe de Supabase. El móvil y el escenario siguen hablando de
@@ -23,20 +23,20 @@ const supabase = createClient(PROYECTO, CLAVE, {
 });
 
 export async function emitir(datos) {
-  const { data, error } = await supabase
-    .from(TABLA)
-    .insert({
-      nombre: datos.nombre,
-      personaje_id: datos.personajeId,
-      instinto: datos.instinto ?? null,
-      mirada: datos.mirada ?? null,
-      elemento: datos.elemento ?? null,
-      creacion: datos.creacion ?? null,
-    })
-    .select()
-    .single();
-
-  if (error) throw new Error(`no se pudo invocar: ${error.message}`);
+  const respuesta = await fetch(`${PROYECTO}/functions/v1/invocar`, {
+    method: 'POST',
+    headers: { apikey: CLAVE, 'Content-Type': 'application/json' },
+    body: JSON.stringify(datos),
+    signal: AbortSignal.timeout(15000),
+  });
+  const data = await respuesta.json();
+  if (!respuesta.ok) {
+    const error = new Error(respuesta.status === 429
+      ? 'El paisaje está recibiendo muchas criaturas. Espera un momento e inténtalo de nuevo.'
+      : 'No llegó al paisaje. Revisa la conexión e inténtalo otra vez.');
+    error.status = respuesta.status;
+    throw error;
+  }
   return aMensaje(data);
 }
 

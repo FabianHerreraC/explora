@@ -105,7 +105,8 @@ async function generar() {
   try {
     await emitir({ nombre, personajeId: personaje.id, ...eleccion });
   } catch (error) {
-    avisoEl.textContent = 'no llegó al paisaje. revisa la conexión e inténtalo otra vez.';
+    avisoEl.textContent = error.status === 429 ? error.message
+      : 'no llegó al paisaje. revisa la conexión e inténtalo otra vez.';
     generarEl.disabled = false;
     console.error(error);
     return;

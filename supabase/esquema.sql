@@ -1,4 +1,5 @@
--- Esquema de Explora. Se pega tal cual en el SQL Editor de Supabase y se ejecuta una vez.
+-- Base para instalaciones nuevas. Después aplicar las migraciones y desplegar invocar.
+-- Ver SEGURIDAD.md. Este archivo por sí solo NO habilita invocaciones.
 
 -- Cada fila es una criatura invocada desde el móvil.
 create table if not exists public.criaturas (
@@ -12,9 +13,7 @@ create table if not exists public.criaturas (
   creacion      text
 );
 
--- El móvil y el escenario entran sin cuenta, con la clave pública. RLS activo y dos
--- permisos explícitos: cualquiera puede invocar y cualquiera puede mirar el paisaje.
--- Nadie puede modificar ni borrar lo ya invocado.
+-- El escenario lee sin cuenta. Las escrituras pasan por la función de servidor.
 alter table public.criaturas enable row level security;
 
 drop policy if exists "cualquiera puede mirar" on public.criaturas;
@@ -22,8 +21,8 @@ create policy "cualquiera puede mirar"
   on public.criaturas for select to anon using (true);
 
 drop policy if exists "cualquiera puede invocar" on public.criaturas;
-create policy "cualquiera puede invocar"
-  on public.criaturas for insert to anon with check (true);
+revoke all on public.criaturas from public, anon, authenticated;
+grant select on public.criaturas to anon;
 
 -- Para que el escenario reciba los INSERT en el momento, sin preguntar.
 alter publication supabase_realtime add table public.criaturas;

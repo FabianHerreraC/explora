@@ -159,13 +159,15 @@ input:focus { outline: none; border-color: var(--azul); }
               background 160ms ease, border-color 160ms ease;
 }
 
-.con-imagen img {
+.con-imagen video {
   grid-area: 1 / 1;
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 8px;
+  background: #111;
   transition: filter 160ms ease;
+  pointer-events: none; /* el clic es del botón, no del video */
 }
 
 /* Mientras el dedo está encima, el botón se hunde hasta su propio canto. */
@@ -182,7 +184,7 @@ input:focus { outline: none; border-color: var(--azul); }
   box-shadow: 0 0 0 #000, 0 2px 5px rgba(0, 0, 0, .4);
 }
 
-.con-imagen[aria-pressed="true"] img { filter: brightness(.42); }
+.con-imagen[aria-pressed="true"] video { filter: brightness(.42); }
 
 /* La palabra sigue ahí para quien navega con lector de pantalla, pero no se ve. */
 .con-imagen span {

@@ -2,12 +2,12 @@
 // aquí y en el paisaje. Los animales ya existen; lo que hacen las respuestas es decidir
 // cuál de ellos le corresponde.
 
-import { PREGUNTAS, elegirPersonaje } from '../datos/personajes.js?v=historias-2';
+import { PREGUNTAS, elegirPersonaje } from '../datos/personajes.js?v=video-1';
 import { recortar } from '../comun/recorte.js';
-import { emitir } from '../comun/enlace.js?v=historias-2';
+import { emitir } from '../comun/enlace.js?v=video-1';
 
 const RUTA_PERSONAJES = '../assets/personajes/';
-const RUTA_OPCIONES = '../assets/opciones/';
+const RUTA_OPCIONES = '../assets/botones/';
 
 const formulario = document.getElementById('formulario');
 const resultado = document.getElementById('resultado');
@@ -16,6 +16,23 @@ const generarEl = document.getElementById('generar');
 const avisoEl = document.getElementById('aviso');
 
 const eleccion = {};
+
+// Doce videos en bucle a la vez funden la batería de un teléfono y atascan los
+// modestos. Solo corre el que está a la vista; el resto espera parado.
+const mirador = 'IntersectionObserver' in window
+  ? new IntersectionObserver((entradas) => {
+      for (const entrada of entradas) {
+        if (entrada.isIntersecting) entrada.target.play().catch(() => {});
+        else entrada.target.pause();
+      }
+    }, { rootMargin: '150px' })
+  : null;
+
+function mirar(video) {
+  if (mirador) mirador.observe(video);
+  else video.play().catch(() => {});
+}
+
 
 pintarPreguntas();
 nombreEl.addEventListener('input', revisar);
@@ -54,15 +71,22 @@ function crearOpcion(pregunta, opcion, contenedor) {
 
   if (pregunta.porImagen) {
     boton.classList.add('con-imagen');
-    const img = document.createElement('img');
-    img.src = `${RUTA_OPCIONES}${opcion.id}.jpg`;
-    img.alt = '';
-    // Mientras no exista la imagen, la casilla se queda con la palabra sola.
-    img.addEventListener('error', () => {
+    const video = document.createElement('video');
+    video.src = `${RUTA_OPCIONES}${opcion.id}.mp4`;
+    // muted + playsinline es lo que permite que un móvil lo reproduzca solo, sin
+    // que nadie lo toque y sin ponerse a pantalla completa.
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.preload = 'metadata';
+    video.setAttribute('aria-hidden', 'true');
+    // Mientras no exista el video, la casilla se queda con la palabra sola.
+    video.addEventListener('error', () => {
       boton.classList.add('sin-imagen');
-      img.remove();
+      video.remove();
     });
-    boton.append(img);
+    boton.append(video);
+    mirar(video);
   }
 
   const texto = document.createElement('span');

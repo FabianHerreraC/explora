@@ -46,7 +46,7 @@ export const PREGUNTAS = [
     titulo: 'Si pudieras crear cualquier cosa, ¿qué sería?',
     porImagen: false,
     opciones: [
-      { id: 'viral', nombre: 'Contenido que se vuelva viral en redes' },
+      { id: 'viral', nombre: 'Contar historias y crear contenido digital' },
       { id: 'app', nombre: 'Una app que organice o gobierne algo del mundo' },
       { id: 'videojuego', nombre: 'Un videojuego épico donde la gente se pierda' },
       { id: 'marca', nombre: 'Una marca que se vuelva una obsesión colectiva' },

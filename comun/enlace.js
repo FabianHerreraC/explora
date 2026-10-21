@@ -54,6 +54,11 @@ export async function escuchar(alLlegar) {
   if (error) console.warn('no se pudo leer lo ya invocado:', error.message);
   for (const fila of data ?? []) entregar(fila);
 
+  // Si ni siquiera se pudo leer, el escenario necesita saberlo: con el servidor caído
+  // seguiría mostrando el demo tan campante, y nadie en la sala notaría que los
+  // teléfonos no están llegando.
+  const hayEnlace = !error;
+
   // Y de aquí en adelante, en vivo.
   supabase
     .channel('criaturas-en-vivo')
@@ -61,6 +66,8 @@ export async function escuchar(alLlegar) {
       entregar(cambio.new)
     )
     .subscribe();
+
+  return hayEnlace;
 }
 
 // Empieza una sesión nueva: lo invocado hasta ahora queda archivado en la base pero

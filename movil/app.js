@@ -4,7 +4,7 @@
 
 import { PREGUNTAS, elegirPersonaje } from '../datos/personajes.js';
 import { recortar } from '../comun/recorte.js';
-import { emitir } from '../comun/enlace.js?v=invocacion-segura-1';
+import { emitir } from '../comun/enlace.js?v=sin-conexion-1';
 
 const RUTA_PERSONAJES = '../assets/personajes/';
 const RUTA_OPCIONES = '../assets/opciones/';

@@ -3,7 +3,7 @@
 
 import { PERSONAJES, NOMBRES_DEMO } from '../datos/personajes.js';
 import { recortar } from '../comun/recorte.js';
-import { escuchar, reiniciarSesion } from '../comun/enlace.js?v=invocacion-segura-1';
+import { escuchar, reiniciarSesion } from '../comun/enlace.js?v=sin-conexion-1';
 import { sonido, desbloquearSonido } from '../comun/campana.js';
 
 const RUTA_PERSONAJES = '../assets/personajes/';
@@ -61,7 +61,8 @@ async function arrancar() {
   // demo solo arranca si de verdad no hay nadie, y la pantalla del evento no se estrena
   // con una criatura inventada.
   let recibidos = 0;
-  await escuchar((mensaje) => {
+  let sinEnlace = false;
+  const alLlegar = (mensaje) => {
     const personaje = PERSONAJES.find((p) => p.id === mensaje.personajeId);
     if (!personaje || !mensaje.nombre) return;
     recibidos++;
@@ -76,11 +77,22 @@ async function arrancar() {
     estado.textContent = 'en vivo';
     if (enVivo) sonido();
     invocar({ personaje, nombre: mensaje.nombre });
-  });
+  };
+
+  // Si el servidor no responde, la pantalla sigue en pie: con el demo puesto y el botón
+  // de reiniciar disponible. Antes la excepción tumbaba el arranque aquí mismo y el
+  // paisaje se quedaba congelado en «recortando fondos…», sin botón y sin salida.
+  try {
+    sinEnlace = (await escuchar(alLlegar)) === false;
+  } catch (error) {
+    sinEnlace = true;
+    console.error('sin enlace con el servidor:', error);
+  }
 
   enVivo = true;
 
   if (recibidos === 0) arrancarDemo();
+  if (sinEnlace) estado.textContent = 'sin conexión';
 
   prepararReinicio();
 
@@ -143,7 +155,12 @@ function prepararReinicio() {
       if (demo) { clearInterval(demo); demo = null; }
       estado.textContent = 'en espera';
     } catch (error) {
-      estado.textContent = 'no se pudo reiniciar';
+      // Sin servidor no se puede guardar hasta dónde se leyó, pero vaciar la pantalla
+      // sigue siendo útil: es lo único que el público ve. Al recargar volverían.
+      limpiar();
+      generados = 0;
+      if (demo) { clearInterval(demo); demo = null; }
+      estado.textContent = 'vaciado sin conexión';
       console.error(error);
     }
     botonReiniciar.disabled = false;

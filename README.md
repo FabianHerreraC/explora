@@ -79,6 +79,21 @@ Teclas: **espacio** invoca un personaje, **d** dibuja la zona pisable para calib
   con un nombre de relleno; al llegar la primera de verdad se apaga y el rótulo pasa a
   «en vivo».
 
+## Riesgo conocido: el proyecto de Supabase caduca
+
+El plan gratuito pausa los proyectos tras unos días sin uso y acaba eliminándolos. Ya
+pasó una vez: entre agosto y octubre de 2026 el proyecto desapareció —su host dejó de
+resolver— y con él la pieza entera, sin aviso.
+
+Qué hacer: **invocar una criatura de prueba cada pocos días** en las semanas previas a un
+evento, y comprobar la víspera que el móvil responde. Si el host no resuelve, hay que
+montar un proyecto nuevo: `supabase/montaje-completo.sql` deja la base lista de una vez,
+y luego hay que desplegar la función `invocar` (ver SEGURIDAD.md) y actualizar la URL y
+la clave en `comun/enlace.js`.
+
+Síntoma en la pantalla del evento: el rótulo dice **«sin conexión»** en vez de «demo» o
+«en vivo».
+
 ## Antes de un evento
 
 **Hacer clic una vez sobre la pantalla.** Los navegadores no dejan sonar nada hasta que

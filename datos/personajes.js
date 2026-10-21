@@ -47,8 +47,8 @@ export const PREGUNTAS = [
     porImagen: false,
     opciones: [
       { id: 'viral', nombre: 'Contar historias y crear contenido digital' },
-      { id: 'app', nombre: 'Una app que organice o gobierne algo del mundo' },
-      { id: 'videojuego', nombre: 'Un videojuego épico donde la gente se pierda' },
+      { id: 'app', nombre: 'Una app que se convierta en un servicio que cambie la vida de las personas' },
+      { id: 'videojuego', nombre: 'Un videojuego épico que enamore al mundo' },
       { id: 'marca', nombre: 'Una marca que se vuelva una obsesión colectiva' },
     ],
   },

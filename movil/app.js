@@ -2,9 +2,9 @@
 // aquí y en el paisaje. Los animales ya existen; lo que hacen las respuestas es decidir
 // cuál de ellos le corresponde.
 
-import { PREGUNTAS, elegirPersonaje } from '../datos/personajes.js?v=historias-1';
+import { PREGUNTAS, elegirPersonaje } from '../datos/personajes.js?v=historias-2';
 import { recortar } from '../comun/recorte.js';
-import { emitir } from '../comun/enlace.js?v=historias-1';
+import { emitir } from '../comun/enlace.js?v=historias-2';
 
 const RUTA_PERSONAJES = '../assets/personajes/';
 const RUTA_OPCIONES = '../assets/opciones/';

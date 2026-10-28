@@ -1,9 +1,9 @@
 // Escenario: recibe personajes y los pone a vivir en el claro.
 // Por ahora nadie los envía todavía, así que se alimenta solo (modo demo).
 
-import { PERSONAJES, NOMBRES_DEMO } from '../datos/personajes.js?v=video-1';
+import { PERSONAJES, NOMBRES_DEMO } from '../datos/personajes.js?v=estampa-2';
 import { recortar } from '../comun/recorte.js';
-import { escuchar, reiniciarSesion } from '../comun/enlace.js?v=video-1';
+import { escuchar, reiniciarSesion } from '../comun/enlace.js?v=estampa-2';
 import { sonido, desbloquearSonido } from '../comun/campana.js';
 
 const RUTA_PERSONAJES = '../assets/personajes/';

@@ -2,9 +2,10 @@
 // aquí y en el paisaje. Los animales ya existen; lo que hacen las respuestas es decidir
 // cuál de ellos le corresponde.
 
-import { PREGUNTAS, elegirPersonaje } from '../datos/personajes.js?v=video-1';
+import { PREGUNTAS, elegirPersonaje } from '../datos/personajes.js?v=estampa-2';
 import { recortar } from '../comun/recorte.js';
-import { emitir } from '../comun/enlace.js?v=video-1';
+import { emitir } from '../comun/enlace.js?v=estampa-2';
+import { componerEstampa, entregar } from './estampa.js?v=estampa-2';
 
 const RUTA_PERSONAJES = '../assets/personajes/';
 const RUTA_OPCIONES = '../assets/botones/';
@@ -16,6 +17,7 @@ const generarEl = document.getElementById('generar');
 const avisoEl = document.getElementById('aviso');
 
 const eleccion = {};
+let invocado = null; // lo último invocado, que es lo que se descarga
 
 // Doce videos en bucle a la vez funden la batería de un teléfono y atascan los
 // modestos. Solo corre el que está a la vista; el resto espera parado.
@@ -38,6 +40,25 @@ pintarPreguntas();
 nombreEl.addEventListener('input', revisar);
 generarEl.addEventListener('click', generar);
 document.getElementById('otra').addEventListener('click', reiniciar);
+document.getElementById('descargar').addEventListener('click', descargar);
+
+async function descargar() {
+  if (!invocado) return;
+  const boton = document.getElementById('descargar');
+  const aviso = document.getElementById('avisoEstampa');
+  boton.disabled = true;
+  aviso.textContent = 'preparando tu criatura…';
+  try {
+    const blob = await componerEstampa(invocado);
+    const archivo = `${invocado.nombre.toLowerCase().replace(/[^a-z0-9]+/gi, '-')}-explora.png`;
+    const final = await entregar(blob, archivo);
+    aviso.textContent = final === 'cancelado' ? '' : 'listo';
+  } catch (error) {
+    aviso.textContent = 'no se pudo preparar la imagen';
+    console.error(error);
+  }
+  boton.disabled = false;
+}
 
 function pintarPreguntas() {
   const contenedor = document.getElementById('preguntas');
@@ -136,6 +157,8 @@ async function generar() {
     return;
   }
 
+  invocado = { nombre, especie: personaje.especie, descripcion: personaje.descripcion,
+               spriteUrl: sprite.url };
   document.getElementById('criatura').src = sprite.url;
   document.getElementById('criatura').alt = personaje.especie;
   document.getElementById('especie').textContent = personaje.especie;

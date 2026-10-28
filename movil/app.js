@@ -2,10 +2,10 @@
 // aquí y en el paisaje. Los animales ya existen; lo que hacen las respuestas es decidir
 // cuál de ellos le corresponde.
 
-import { PREGUNTAS, elegirPersonaje } from '../datos/personajes.js?v=estampa-2';
+import { PREGUNTAS, elegirPersonaje } from '../datos/personajes.js?v=mayusculas-1';
 import { recortar } from '../comun/recorte.js';
-import { emitir } from '../comun/enlace.js?v=estampa-2';
-import { componerEstampa, entregar } from './estampa.js?v=estampa-2';
+import { emitir } from '../comun/enlace.js?v=mayusculas-1';
+import { componerEstampa, entregar } from './estampa.js?v=mayusculas-1';
 
 const RUTA_PERSONAJES = '../assets/personajes/';
 const RUTA_OPCIONES = '../assets/botones/';

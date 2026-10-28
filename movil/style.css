@@ -21,6 +21,7 @@
   --gris: #ebebeb;
   --gris-oscuro: #2b2b2b;
   --azul: #373df5;
+  --azul-programa: #373BF4;
   --limon: #d8f20a;
   --titular: 'DM Serif Text', Georgia, serif;
 }
@@ -335,10 +336,30 @@ input:focus { outline: none; border-color: var(--azul); }
 }
 
 /* El que invita al programa manda: es a lo que lleva todo esto. */
+/* El que invita al programa titila para llamar la atención: late el color y el
+   resplandor, sin cortes bruscos. El ciclo es lento a propósito —un parpadeo rápido
+   molesta y puede dar problemas a quien es sensible a los destellos. */
 #programa {
-  color: var(--gris);
-  background: var(--azul);
+  color: #fff;
+  background: var(--azul-programa);
   padding-block: 1.15rem;
+  animation: titilar 1.6s ease-in-out infinite alternate;
+}
+
+@keyframes titilar {
+  from {
+    background: var(--azul-programa);
+    box-shadow: 0 0 0 rgba(55, 59, 244, 0);
+  }
+  to {
+    background: #5a5dff;
+    box-shadow: 0 0 22px rgba(55, 59, 244, .85);
+  }
+}
+
+/* Quien pide menos movimiento en su teléfono no ve el parpadeo, solo el botón. */
+@media (prefers-reduced-motion: reduce) {
+  #programa { animation: none; }
 }
 
 #descargar {
